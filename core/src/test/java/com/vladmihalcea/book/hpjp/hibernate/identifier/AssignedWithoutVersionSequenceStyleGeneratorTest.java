@@ -20,13 +20,24 @@ public class AssignedWithoutVersionSequenceStyleGeneratorTest extends AbstractTe
     }
 
     @Test
-    public void test() {
-        LOGGER.debug("test");
+    public void testFail() {
+        LOGGER.debug("testFail");
         doInJPA(entityManager -> {
             entityManager.persist(new Post());
             entityManager.persist(new Post(-1L));
             entityManager.persist(new Post());
             entityManager.persist(new Post(-2L));
+        });
+    }
+
+    @Test
+    public void test() {
+        LOGGER.debug("test");
+        doInJPA(entityManager -> {
+            entityManager.persist(new Post());
+            entityManager.merge(new Post(-1L));
+            entityManager.persist(new Post());
+            entityManager.merge(new Post(-2L));
         });
     }
 
